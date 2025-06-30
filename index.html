@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RecruGi – Train · Transform · Get Hired</title>
+  <link rel="icon" href="my_company_Logo-removebg-preview.png" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600;800&family=Raleway:wght@700;900&display=swap');
+    :root {
+      --dark-bg: #0f172a;
+      --accent1: #22d3ee;
+      --accent2: #3b82f6;
+      --accent3: #10b981;
+      --highlight: #facc15;
+      --hover-bg: #f0fdfa;
+      --highlight-bg: #fef9c3;
+      --hover-scale: 1.03;
+      --text-light: #64748b;
+    }
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; scroll-behavior:smooth; }
+    body { font-family:'Poppins',sans-serif; background:#fff; }
+
+    /* Intro */
+    #intro {
+      position:fixed; inset:0;
+      background:radial-gradient(circle, #000,#1e293b);
+      display:flex; flex-direction:column; align-items:center; justify-content:center;
+      color:#fff; text-align:center; z-index:1000; perspective:800px;
+    }
+    #intro img {
+      width:160px; animation:popIn 1.8s ease forwards;
+      filter:drop-shadow(0 0 30px var(--accent1));
+      transform-style:preserve-3d; transition:transform .5s, filter .5s;
+    }
+    #intro img:hover {
+      transform:scale(1.2);
+      filter:drop-shadow(0 0 60px var(--accent1));
+    }
+    #intro h1 {
+      font-family:'Raleway',sans-serif;
+      font-size:3rem; font-weight:900; margin:20px 0;
+      background:linear-gradient(90deg,var(--highlight),var(--accent3));
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+      opacity:0; animation:fadeIn 2s 1s forwards;
+      transition: opacity .5s, transform .5s;
+    }
+    #intro h1:hover {
+      opacity:0; transform:translateY(-20px);
+    }
+    .start-btn {
+      padding:14px 34px; margin-top:40px;
+      background:#ff6b6b; color:#fff;
+      font-size:1.1rem; font-weight:600;
+      border:none; border-radius:30px; cursor:pointer;
+      opacity:0; animation:fadeIn 2s 2s forwards;
+      transition:background .3s,transform .2s;
+    }
+    .start-btn:hover { background:#ef4444; transform:scale(1.05); }
+
+    @keyframes popIn { from{transform:translateZ(-200px) scale(0);opacity:0;} to{transform:translateZ(0) scale(1);opacity:1;} }
+    @keyframes fadeIn { from{opacity:0;} to{opacity:1;} }
+
+    /* Main & Navbar */
+    .main { display:none; }
+    nav {
+      position:sticky; top:0;
+      background:linear-gradient(90deg,#0f172a,#1e3a8a);
+      display:flex; justify-content:space-between; align-items:center;
+      padding:16px 40px; box-shadow:0 2px 8px rgba(0,0,0,0.3);
+      z-index:5; font-family:'Raleway',sans-serif;
+    }
+    .logo-area { display:flex; align-items:center; gap:10px; }
+    .logo-area img {
+      width:45px; transition:transform .3s, filter .3s;
+      filter:brightness(0.9);
+    }
+    .logo-area img:hover {
+      transform:scale(1.1);
+      filter:brightness(1);
+    }
+    .logo-text {
+      font-size:1.8rem; font-weight:900;
+      background:linear-gradient(90deg,var(--accent2),var(--highlight));
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+    }
+    .nav-links a {
+      margin-left:20px;color:#fff;text-decoration:none;
+      font-weight:600;padding:8px 14px;border-radius:6px;
+      transition:background .3s,color .3s,transform .2s;
+    }
+    .nav-links a:hover, .nav-links a.active {
+      background:var(--highlight-bg); color:#000;
+      transform:scale(1.05);
+    }
+
+    /* Sections */
+    section {
+      min-height:100vh; padding:80px 30px; background:#fff;
+      display:flex; flex-direction:column; align-items:center;
+      justify-content:center; opacity:0; transform:translateY(40px);
+      transition:opacity .6s ease-out, transform .6s ease-out;
+    }
+    section.visible { opacity:1; transform:translateY(0); }
+    section:hover {
+      background:var(--hover-bg);
+      transform:translateY(-5px) scale(var(--hover-scale));
+      box-shadow:0 8px 25px rgba(0,0,0,0.1);
+    }
+    section img {
+      width:80%; max-width:600px; border-radius:12px;
+      margin:20px 0; filter:brightness(0.95);
+      transition:transform .3s,filter .3s;
+    }
+    section img:hover {
+      transform:scale(1.02); filter:brightness(1);
+    }
+    section h2, section h3 {
+      font-size:2.8rem; color:var(--accent2); margin-bottom:20px;
+      text-shadow:1px 1px 2px rgba(0,0,0,0.1);
+    }
+    section p {
+      max-width:800px; color:var(--text-light);
+      text-align:center; font-size:1.1rem; margin:10px 0;
+    }
+
+    /* CTA & Cards */
+    .cta, .start-btn {
+      margin-top:20px; font-weight:600; border-radius:6px;
+      text-decoration:none;
+    }
+    .cta {
+      background:var(--accent3); color:#fff; padding:12px 26px;
+      transition:background .3s, transform .2s;
+    }
+    .cta:hover {
+      background:var(--accent2); transform:scale(1.02);
+    }
+    .grid { display:grid; gap:30px; width:100%; max-width:1000px; margin-top:20px; }
+    @media(min-width:600px){ .grid { grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); } }
+    .card {
+      background:#fff; padding:24px; border-radius:12px;
+      box-shadow:0 4px 15px rgba(0,0,0,0.05);
+      transition:transform .3s,box-shadow .3s;
+    }
+    .card:hover {
+      transform:translateY(-5px); box-shadow:0 8px 25px rgba(0,0,0,0.1);
+    }
+
+    /* Helpers */
+    input[type="text"] {
+      width:100%; max-width:400px; padding:10px;
+      border:1px solid #ccc; border-radius:8px; margin:10px 0;
+    }
+    .contact-box {
+      padding:30px; border-radius:15px;
+      box-shadow:0 4px 20px rgba(0,0,0,0.08); text-align:center;
+    }
+    .whatsapp-button {
+      position:fixed; bottom:20px; right:20px; padding:15px;
+      background:#25d366; color:#fff; border-radius:50%;
+      font-size:1.5rem; box-shadow:0 4px 10px rgba(0,0,0,0.2);
+      text-decoration:none; z-index:100;
+    }
+    footer {
+      background:var(--dark-bg); color:#fff; text-align:center; padding:20px;
+    }
+    @media(max-width:768px) {
+      nav { flex-direction:column; align-items:flex-start; }
+      .nav-links a { margin:8px 0; display:block; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Intro -->
+  <div id="intro">
+    <img src="my_company_Logo-removebg-preview.png" alt="Logo">
+    <h1>welcome to my website</h1>
+    <button class="start-btn">Enter Website</button>
+  </div>
+
+  <div class="main">
+    <nav>
+      <div class="logo-area">
+        <img src="my_company_Logo-removebg-preview.png" alt="Logo">
+        <div class="logo-text">RecruGi</div>
+      </div>
+      <div class="nav-links">
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#programs">Programs</a>
+        <a href="#resume">Resume</a>
+        <a href="#internship">Internship</a>
+        <a href="#verify">Certificate</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </nav>
+
+    <!-- Sections -->
+    <section id="home">
+      <h2>Your Gateway to a Successful Career in IT Recruitment</h2>
+      <img src="homerecruit.png" alt="Recruitment Image">
+      <p>Join RECRUGI to master recruitment, build your career with real skills, and become job-ready with our training, resume services, mock interviews, and internship programs.</p>
+      <a href="#programs" class="cta">Explore Programs</a>
+    </section>
+
+    <section id="about">
+      <h3>About Us</h3>
+      <img src="aboutrecruit.png" alt="About RECRUGI">
+      <p>RECRUGI is your premier partner in launching a career in IT recruitment. We provide comprehensive training, resume services, interview prep, and hands-on internships to help you stand out in the job market.</p>
+    </section>
+
+    <section id="programs">
+      <h3>Training Programs</h3>
+      <img src="programsrecruit.png" alt="Training Programs">
+      <div class="grid">
+        <div class="card"><h4>IT Recruitment Training</h4><p>Master sourcing, Boolean search, ATS, job portals, and candidate screening through live training and exercises.</p></div>
+        <div class="card"><h4>Mock Interview Training</h4><p>Experience professional interviews with feedback to improve confidence, body language, and technical communication.</p></div>
+        <div class="card"><h4>Career Building</h4><p>Get coaching on LinkedIn profile building, resume writing, job hunting strategy, and personal branding.</p></div>
+      </div>
+      <a href="https://forms.gle/yourformlink" class="cta">Apply Now</a>
+    </section>
+
+    <section id="resume">
+      <h3>Resume Services</h3>
+      <img src="resumerecruit.png" alt="Resume Services">
+      <div class="card"><p>We offer professional resume building, keyword optimization, and role-based formatting for fresher and experienced candidates. Includes review and custom templates.</p></div>
+    </section>
+
+    <section id="internship">
+      <h3>Apply for Internship</h3>
+      <img src="internrecruit.png" alt="Internship">
+      <div class="card">
+        <p>Join our paid internship program to work on real-time recruitment projects. Includes task tracking, performance reviews, and certification.</p>
+        <p><strong>Duration:</strong> 1 Month | <strong>Format:</strong> Online | <strong>Fee:</strong> ₹999–₹2999</p>
+        <a href="https://forms.gle/yourformlink" class="cta">Apply Now</a>
+      </div>
+    </section>
+
+    <section id="verify">
+      <h3>Certificate Verification</h3>
+      <img src="certrecruit.png" alt="Certificate Verification">
+      <div class="card"><p>Enter your Certificate ID below to verify the authenticity of training completion or internship experience issued by RECRUGI.</p><input type="text" placeholder="Enter Certificate ID"><a href="#" class="cta">Verify</a></div>
+    </section>
+
+    <section id="contact">
+      <h3>Contact Us</h3>
+      <img src="contactrecruit.png" alt="Contact RECRUGI">
+      <div class="contact-box"><p><strong>Email:</strong> info@recrugi.com</p><p><strong>WhatsApp:</strong> +91‑XXXXXXXXXX</p><p><strong>Instagram:</strong> @recrugi</p><p><strong>LinkedIn:</strong> /recrugi</p></div>
+    </section>
+
+    <a href="https://wa.me/91XXXXXXXXXX" class="whatsapp-button" title="Chat on WhatsApp">💬</a>
+    <footer>&copy; 2025 RECRUGI. All rights reserved.</footer>
+  </div>
+
+  <script>
+    const intro = document.getElementById('intro');
+    const startBtn = document.querySelector('.start-btn');
+    const main = document.querySelector('.main');
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('.nav-links a');
+
+    startBtn.addEventListener('click', () => {
+      intro.remove();
+      main.style.display = 'block';
+      setTimeout(() => {
+        sections.forEach(sec => sec.classList.add('visible'));
+        navLinks.forEach(a => a.classList.remove('active'));
+        document.querySelector('.nav-links a[href="#home"]').classList.add('active');
+      }, 100);
+    });
+
+    navLinks.forEach(link => {
+      link.addEventListener('click', e => {
+        e.preventDefault();
+        navLinks.forEach(a => a.classList.remove('active'));
+        link.classList.add('active');
+        document.querySelector(link.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+      });
+    });
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) e.target.classList.add('visible');
+      });
+    }, { threshold: 0.3 });
+    sections.forEach(sec => observer.observe(sec));
+  </script>
+</body>
+</html>
